@@ -93,7 +93,7 @@ module Reservoir()
              rotate([90,0,0])
              cylinder(r = radius_drain_tube_outer, h = 7, $fn = resolution_low);
             }
-         //Inside   
+         //Inside
          translate([0,0,thickness_floor])
             {
              hull()
@@ -130,11 +130,11 @@ module Reservoir()
                  translate([-width_unit_top/2 - radius_chamfer_unit_outer_top - thickness_reservoir_wall, +width_unit_top * 0.25,0])
                     cylinder(r = radius_chamfer_unit_outer_top - thickness_reservoir_wall, h = height_reservoir, $fn = resolution_high);
                 }
-             translate([0, 0, height_max_fill/2])
+             //Water funnel fill hole
+             translate([-width_unit_top/2, 0, height_max_fill/2])
              rotate([0,-90,0])
-                cylinder(r = width_unit_top*0.25, h = width_unit_top*0.85, $fn = resolution_low);   
-             
-                
+                cylinder(r = min(height_max_fill*0.50, width_unit_top * .25), h = thickness_reservoir_wall*2.5, $fn = resolution_low);
+
              //Water trap
              rotate([0,0,90])
              hull()
@@ -156,8 +156,6 @@ module Reservoir()
         }
     }
 
-
-
 module MultiUnit()
     {
      color("DarkSeaGreen")
@@ -175,7 +173,7 @@ module MultiUnit()
                      if ((current_column < count_columns)&&(current_row < count_rows))
                         {
                          translate([width_unit_top/2 - thickness_unit_wall/2,
-                            width_unit_top/2 - thickness_unit_wall/2, 
+                            width_unit_top/2 - thickness_unit_wall/2,
                             height_unit_base + height_unit_funnel])
                             cylinder(r = radius_chamfer_unit_outer_top/2, h = thickness_floor);
                         }
@@ -213,7 +211,7 @@ module Round_Pot_Unit()
              translate([0,0,height_unit_base])
              linear_extrude(height = height_unit_funnel, scale = width_unit_top/width_unit_base)
              hull()
-                {        
+                {
                  translate([width_unit_base/2 - radius_chamfer_unit_outer_bottom, width_unit_base/2 - radius_chamfer_unit_outer_bottom, 0])
                     circle(r = radius_chamfer_unit_outer_bottom, $fn = resolution_low);
                  translate([- (width_unit_base/2 - radius_chamfer_unit_outer_bottom), width_unit_base/2 - radius_chamfer_unit_outer_bottom, 0])
@@ -238,7 +236,7 @@ module Round_Pot_Unit()
                 }
             }
          translate([0,0,epsilon]) //Inside of unit___________________________________________________
-         union() 
+         union()
             {
              //Base
              translate([0,0,thickness_floor])
@@ -257,7 +255,7 @@ module Round_Pot_Unit()
              translate([0,0,height_unit_base])
              linear_extrude(height = height_unit_funnel + epsilon, scale = (width_unit_top - 2*thickness_unit_wall)/(width_unit_base - 2*thickness_unit_wall))
              hull()
-                {        
+                {
                  translate([width_unit_base/2 - radius_chamfer_unit_inner_bottom - thickness_unit_wall, width_unit_base/2 - radius_chamfer_unit_inner_bottom - thickness_unit_wall, 0])
                     circle(r = radius_chamfer_unit_inner_bottom, $fn = resolution_low);
                  translate([- (width_unit_base/2 - radius_chamfer_unit_inner_bottom - thickness_unit_wall), width_unit_base/2 - radius_chamfer_unit_inner_bottom - thickness_unit_wall, 0])
@@ -284,11 +282,11 @@ module Round_Pot_Unit()
 
         //Seep holes____________________________________________________________________
          translate([-width_unit_base,-width_seep_hole/2,thickness_floor + 2])
-            cube([2*width_unit_base,width_seep_hole,height_seep_hole]); 
+            cube([2*width_unit_base,width_seep_hole,height_seep_hole]);
          rotate([0,0,90])
          translate([-width_unit_base,-width_seep_hole/2,thickness_floor + 2])
-            cube([2*width_unit_base,width_seep_hole,height_seep_hole]); 
-            
+            cube([2*width_unit_base,width_seep_hole,height_seep_hole]);
+
         //Air holes_____________________________________________________________________
          //translate([0,0,height_unit_base + height_unit_funnel - 5]) //height_max_fill
          translate([0,0,height_max_fill + 2.5]) //height_max_fill
@@ -312,11 +310,7 @@ module Round_Pot_Unit()
                     cylinder(r = 1.5, h = width_unit_top, $fn = 16);
                 }
             }
-       
-       
-            
-        }   
+        }
     }
 
 
-    
